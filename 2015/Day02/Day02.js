@@ -10,19 +10,30 @@ const path = require('path');
 const fs = require('fs');
 
 const input = fs
-  .readFileSync(path.join(__dirname, 'Day02inputTest.txt'), 'utf8')
+  .readFileSync(path.join(__dirname, 'Day02input.txt'), 'utf8')
   .toString()
   .trim()
   .split(/\r\n/); //need \r\n because its a carriage return
 
-console.log(input);
+const getSurfaceArea = (w, l, h) => {
+  const sides = [2 * l * w, 2 * w * h, 2 * h * l];
+  return (
+    sides[0] + sides[1] + sides[2] + Math.min(sides[0], sides[1], sides[2]) / 2
+  );
+};
 
-//NOTE make easier test data
+const getTotalSurfaceArea = (array) => {
+  let totalSurfaceArea = 0;
+  for (let i = 0; i < array.length; i++) {
+    let sides = array[i].split('x');
+    let width = sides[0];
+    let length = sides[1];
+    let height = sides[2];
+    totalSurfaceArea = totalSurfaceArea + getSurfaceArea(width, length, height);
+  }
+  return totalSurfaceArea;
+};
 
-//total area variable
-//loop through array
-//loop through each string/index in array - split at x to give l w h
-//find smallest and store
-//function to get area
-//add smallest side - or have in above function?
-//end of array index loop, add to total area variable
+console.log(getTotalSurfaceArea(input));
+
+//part 2
